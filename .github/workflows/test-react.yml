@@ -53,7 +53,17 @@ jobs:
          access_key: ${{ secrets.ACCESS_KEY }}
          secret_access_key: ${{ secrets.SECRET_KEY }}
          region: ${{ secrets.REGION }}
-         
+    
+    - run: docker build -t demoreactimg:v1 .    
+    - name: Build and Push Image
+      id: ecr
+      uses: jwalton/gh-ecr-push@v2
+      with:
+         access_key: ${{ secrets.ACCESS_KEY }}
+         secret_access_key: ${{ secrets.SECRET_KEY }}
+         region: ${{ secrets.REGION }}
+         image: demoreactimg:v1 
+           
   deploy:
     needs: buildtoAWS
     runs-on: ubuntu-latest
