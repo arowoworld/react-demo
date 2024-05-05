@@ -19,7 +19,7 @@ jobs:
     - name: Test App
       run: npm test
 
-  build:
+  build-to-DHub:
     needs: testing
     runs-on: ubuntu-latest
     steps:
@@ -39,8 +39,22 @@ jobs:
            docker tag reactimg frankisinfotech/cohort-3:v1
            docker push frankisinfotech/cohort-3:v1
       
+  build-to-AWS:
+    needs: build-to-DHub:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Code Checkout
+      uses: actions/checkout@v4
+
+    - name: AWS ECR Login
+      uses: elgohr/ecr-login-action@v3
+      with:
+         access_key: ${{ secrets.ACCESS_KEY }}
+         secret_access_key: ${{ secrets.SECRET_KEY }}
+         
   deploy:
-    needs: build
+    needs: build-to-AWS
     runs-on: ubuntu-latest
     steps:
       
