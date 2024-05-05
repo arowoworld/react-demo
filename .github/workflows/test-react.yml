@@ -52,6 +52,7 @@ jobs:
       with:
          access_key: ${{ secrets.ACCESS_KEY }}
          secret_access_key: ${{ secrets.SECRET_KEY }}
+         region: ${{ secrets.REGION }}
          
   deploy:
     needs: buildtoAWS
