@@ -19,7 +19,7 @@ jobs:
     - name: Test App
       run: npm test
 
-  build-to-DHub:
+  buildtoDHub:
     needs: testing
     runs-on: ubuntu-latest
     steps:
@@ -39,8 +39,8 @@ jobs:
            docker tag reactimg frankisinfotech/cohort-3:v1
            docker push frankisinfotech/cohort-3:v1
       
-  build-to-AWS:
-    needs: build-to-DHub:
+  buildtoAWS:
+    needs: buildtoDHub:
     runs-on: ubuntu-latest
     steps:
 
@@ -54,7 +54,7 @@ jobs:
          secret_access_key: ${{ secrets.SECRET_KEY }}
          
   deploy:
-    needs: build-to-AWS
+    needs: buildtoAWS
     runs-on: ubuntu-latest
     steps:
       
