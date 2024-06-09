@@ -39,3 +39,17 @@ jobs:
            docker build -t reactapp .
            docker tag reactapp:latest 131932704021.dkr.ecr.eu-west-1.amazonaws.com/reactapp:${GITHUB_RUN_NUMBER}
            docker push 131932704021.dkr.ecr.eu-west-1.amazonaws.com/reactapp:${GITHUB_RUN_NUMBER}
+
+   install-kubectl:
+      runs-on: ubuntu-latest
+      needs:
+        buildImage-and-Publish-To-ECR
+
+      steps:
+      - name: Install Kubectl
+        run: |
+           curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/OS_DISTRIBUTION/amd64/kubectl
+           chmod +x ./kubectl
+           sudo mv ./kubectl /usr/local/bin/kubectl
+
+      
