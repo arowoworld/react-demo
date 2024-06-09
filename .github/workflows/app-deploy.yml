@@ -14,3 +14,26 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+
+
+   buildImage-and-Publish-To-ECR:
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to ECR
+        uses: docker/login-action@v3
+        with:
+          registry: 131932704021.dkr.ecr.eu-west-1.amazonaws.com
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        env:
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Build Image
+        run: | 
+           docker build -t reactapp .
+           docker tag reactapp:latest 131932704021.dkr.ecr.eu-west-1.amazonaws.com/reactapp:${GITHUB_RUN_NUMBER}
+           docker push 131932704021.dkr.ecr.eu-west-1.amazonaws.com/reactapp:${GITHUB_RUN_NUMBER}
