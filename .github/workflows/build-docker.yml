@@ -1,5 +1,5 @@
 name: build & publish docker image
-on: push
+on: workflow_dispatch
 
 jobs:
    build:
