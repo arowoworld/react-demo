@@ -30,7 +30,7 @@ jobs:
 
       - name: Run Trivy Scan
         run: |
-          ./trivy fs --ignore-unfixed --scanners vuln,config --exit-code 1 --severity HIGH,CRITICAL .
+          trivy fs --ignore-unfixed --scanners vuln,config --exit-code 1 --severity HIGH,CRITICAL .
 
       - name: Upload Trivy report
         if: failure()
