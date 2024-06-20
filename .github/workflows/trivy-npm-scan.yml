@@ -1,0 +1,43 @@
+name: Trivy Scan on NPM Packages
+
+on:
+  pull_request:
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+
+jobs:
+  trivy-scan:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh
+
+      - name: Run Trivy Scan
+        run: |
+          ./trivy fs --ignore-unfixed --scanners vuln,config --exit-code 1 --severity HIGH,CRITICAL .
+
+      - name: Upload Trivy report
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: trivy-report
+          path: trivy-report.txt
+
+      - name: Run tests
+        run: npm test
