@@ -7,7 +7,7 @@ on:
 
 jobs:
   fortify-scan:
-    runs-on: [self-hosted, fortify]
+    runs-on: [self-hosted]
     
     steps:
       - name: Checkout Code
