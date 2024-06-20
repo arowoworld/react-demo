@@ -3,7 +3,7 @@ name: Fortify Scan
 on:
   push:
     branches:
-      - developp
+      - develop
 
 jobs:
   fortify-scan:
