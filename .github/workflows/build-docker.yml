@@ -14,8 +14,8 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Image 
+      - name: Build Image
         run: |
-           docker build -t Test:v1 ../.
-           docker tag Test:v1 bigmav98/react-demo:v1
-           docker push bigmav98/react-demo:v1
+          docker build -t test:v1 ../.
+          docker tag test:v1 bigmav98/react-demo:v1
+          docker push bigmav98/react-demo:v1
